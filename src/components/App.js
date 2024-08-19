@@ -1,6 +1,14 @@
 import './App.css';
+import Search from './Search';
+import Displaycurrent from './Display';
+import Futureforcast from './Futureforcast';
 import {useEffect, useState} from 'react';
-const key="3af6fc04f28f46e4aa2105112241908"
+import Frontpage from './Frontpage';
+
+import Loading from './Loading';
+import Error from './Error';
+const 
+key="3af6fc04f28f46e4aa2105112241908"
 function App() {
    const [query,setQuery]=useState('');
    const [current,setCurrent]=useState([])
@@ -39,15 +47,18 @@ function App() {
     <>
      <Search query={query} setQuery={setQuery}/>
       <div className='maincontainer'>
-        {query.length <3 ?  <div className='frontpage'>
-          <h1>
-            please search the location🚀
-         </h1>
-         </div>:
+        {query.length <3 ? <Frontpage /> :
       <>
 {loading ? 
- <div >loading</div>  :  error ? <div>error while tching data</div>   : <div> <Displaycurrent current={current} location={location}/>
-<Futureforcast /></div>
+<Loading />
+ : 
+  error ?  
+  <Error /> 
+  :
+ <> 
+ <Displaycurrent current={current} location={location}/>
+<Futureforcast />
+</>
      
       }
       </>
@@ -56,52 +67,5 @@ function App() {
     </>
   );
 }
-function Search ({query,setQuery}){
-  return (
-    <div className="searchbox">
-      <input  onChange={(e)=>setQuery(e.target.value)} value={query} type='text' placeholder='search for location' />
-    </div>
-    
-  )
-}
 
-
-
-
-function Displaycurrent({current,location}){
- 
-  return<div className="displaycurrent">
-    <div>
-      <h1>Current Weather</h1>
-      <p>{location?.name}</p>
-      <p>{(current?.last_updated)}</p>
-    </div>
-      <div className="currentforcast">
-          <p><img src={current?.condition?.icon} alt="/" /></p>
-          <div> 
-          <p> {current?.temp_c}°C</p>
-          <p> {current?.condition?.text} {current?.feelslike_c}°C </p> </div>
-      </div>
-    <div className="moreinfo">
-      <div>wind {current?.wind_kph} Km/hr</div>
-      <div>humuidity {current?.humidity} </div>
-      <div>feels like {current?.feelslike_c} °C</div>
-      <div>pressure {current?.pressure_in} in</div>
-    </div>
-  </div>
-}
-
-
-function Futureforcast(){
-  return <div className="futureforcast">
-     <ul className="futureforcastlist">
-      <Futureforcastlist />
-     </ul>
-  </div>
-}
-function Futureforcastlist(){
-  return <li>
-    
-       </li>
-}
 export default App;

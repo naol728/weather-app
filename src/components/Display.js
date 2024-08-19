@@ -1,12 +1,12 @@
 export default function Displaycurrent({current,location}){
  
     return<div className="displaycurrent">
-      <div>
+      <div className="loctimeinfo">
         <h1>Current Weather</h1>
         <p>{location?.name}</p>
         <p>{(current?.last_updated)}</p>
       </div>
-        <div className="currentforcast">
+        <div className="currentforcsast">
             <p><img src={current?.condition?.icon} alt="/" /></p>
             <div> 
             <p> {current?.temp_c}°C</p>
