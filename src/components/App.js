@@ -45,22 +45,23 @@ function Search ({query,setQuery}){
   )
 }
 function Displaycurrent({current}){
+ 
   return<div className="displaycurrent">
     <div>
       <h1>Current Weather</h1>
-      <p>12:34</p>
+      <p>{(current?.last_updated)}</p>
     </div>
       <div className="currentforcast">
           <p><img src={current?.condition?.icon} alt="/" /></p>
           <div> 
-          <p> {current?.temp_c} </p>
-          <p> light rain <span>feels like 16*c</span></p> </div>
+          <p> {current?.temp_c}°C</p>
+          <p> light rain <span>feels like {current?.feelslike_c}°C </span></p> </div>
       </div>
     <div className="moreinfo">
-      <div>wind 15km/hr</div>
-      <div>humuidity 74%</div>
-      <div>feels like</div>
-      <div>pressure 7km</div>
+      <div>wind {current?.wind_kph} Km/hr</div>
+      <div>humuidity {current?.humidity} </div>
+      <div>feels like {current?.feelslike_c} °C</div>
+      <div>pressure {current?.pressure_in} in</div>
     </div>
   </div>
 }
