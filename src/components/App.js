@@ -5,22 +5,30 @@ function App() {
    const [query,setQuery]=useState('');
    const [current,setCurrent]=useState([])
    const [location,setLocation]=useState([])
+   const [loading,setLoading]=useState(false)
+   const [error,setError]=useState(false)
   console.log(current?.temp_c)
    useEffect(
     function (){
       const controller = new AbortController();
  async function fetchweatherdata(){
-    if(query.length===0) return;
   try{
+    setLoading(true)
     const res=await fetch(`http://api.weatherapi.com/v1/current.json?key=3af6fc04f28f46e4aa2105112241908&q=${query}&aqi=no
       `, { signal: controller.signal })
           const data= await res.json()
           setCurrent(data.current)
           setLocation(data.location)
           console.log(data)
+          setLoading(false)
   }
     catch(err){
       console.log(err)
+      setError(true)
+      setLoading(false)
+    }
+    finally{
+      setLoading(false)
     }
   }
   fetchweatherdata()
@@ -30,15 +38,18 @@ function App() {
   return (
     <>
      <Search query={query} setQuery={setQuery}/>
-    <div className='maincontainer'>
-      {query ==="" ?  <div className='frontpage'>
-        <h1>
+      <div className='maincontainer'>
+        {query.length <3 ?  <div className='frontpage'>
+          <h1>
             please search the location🚀
          </h1>
          </div>:
       <>
-      <Displaycurrent current={current} location={location}/>
-      <Futureforcast />
+{loading ? 
+ <div >loading</div>  :  error ? <div>error while tching data</div>   : <div> <Displaycurrent current={current} location={location}/>
+<Futureforcast /></div>
+     
+      }
       </>
 }
     </div>
@@ -53,6 +64,10 @@ function Search ({query,setQuery}){
     
   )
 }
+
+
+
+
 function Displaycurrent({current,location}){
  
   return<div className="displaycurrent">
@@ -75,6 +90,8 @@ function Displaycurrent({current,location}){
     </div>
   </div>
 }
+
+
 function Futureforcast(){
   return <div className="futureforcast">
      <ul className="futureforcastlist">
