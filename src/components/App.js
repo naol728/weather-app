@@ -2,8 +2,9 @@ import './App.css';
 import {useEffect, useState} from 'react';
 const key="3af6fc04f28f46e4aa2105112241908"
 function App() {
-   const [query,setQuery]=useState('addis ababa');
+   const [query,setQuery]=useState('');
    const [current,setCurrent]=useState([])
+   const [location,setLocation]=useState([])
   console.log(current?.temp_c)
    useEffect(
     function (){
@@ -15,6 +16,7 @@ function App() {
       `, { signal: controller.signal })
           const data= await res.json()
           setCurrent(data.current)
+          setLocation(data.location)
           console.log(data)
   }
     catch(err){
@@ -29,9 +31,16 @@ function App() {
     <>
      <Search query={query} setQuery={setQuery}/>
     <div className='maincontainer'>
-      <Displaycurrent current={current}/>
-      <Map />
+      {query ==="" ?  <div className='frontpage'>
+        <h1>
+            please search the location🚀
+         </h1>
+         </div>:
+      <>
+      <Displaycurrent current={current} location={location}/>
       <Futureforcast />
+      </>
+}
     </div>
     </>
   );
@@ -44,18 +53,19 @@ function Search ({query,setQuery}){
     
   )
 }
-function Displaycurrent({current}){
+function Displaycurrent({current,location}){
  
   return<div className="displaycurrent">
     <div>
       <h1>Current Weather</h1>
+      <p>{location?.name}</p>
       <p>{(current?.last_updated)}</p>
     </div>
       <div className="currentforcast">
           <p><img src={current?.condition?.icon} alt="/" /></p>
           <div> 
           <p> {current?.temp_c}°C</p>
-          <p> light rain <span>feels like {current?.feelslike_c}°C </span></p> </div>
+          <p> {current?.condition?.text} {current?.feelslike_c}°C </p> </div>
       </div>
     <div className="moreinfo">
       <div>wind {current?.wind_kph} Km/hr</div>
@@ -63,11 +73,6 @@ function Displaycurrent({current}){
       <div>feels like {current?.feelslike_c} °C</div>
       <div>pressure {current?.pressure_in} in</div>
     </div>
-  </div>
-}
-function Map(){
-  return <div className="map">
-    map 
   </div>
 }
 function Futureforcast(){

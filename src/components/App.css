@@ -61,3 +61,11 @@ body{
     display: grid;
     grid-template-columns: repeat(5,1fr);
 }
+.frontpage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    width: 100%;
+    color: white;
+}
