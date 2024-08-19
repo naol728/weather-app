@@ -29,20 +29,20 @@ body{
   margin: 10px 15px;
 }
 .displaycurrent{
-    width: 47%;
+    min-width: 47%;
     background-color: bisque;
     height: 200px;
     padding: 20px;
 }
 .map{
     background-color: aqua;
-    width: 50%;
+    min-width: 50%;
     height: 200px;
     margin-left: 20px;
 }
 .futureforcast{
     background-color: sienna;
-    width: 100%;
+    min-width: 100%;
     height: 300px;
     margin: 15px 20px;
 }
